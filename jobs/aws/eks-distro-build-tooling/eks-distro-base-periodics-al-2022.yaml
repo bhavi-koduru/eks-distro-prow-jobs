@@ -74,6 +74,8 @@ periodics:
         make update -C $PROJECT_PATH IMAGE_TAG=${DATE_EPOCH}.${AL_TAG}
         &&
         make create-pr -C $PROJECT_PATH IMAGE_TAG=${DATE_EPOCH}.${AL_TAG}
+        &&
+        curl -v -X POST $WEBHOOK_URL
       env:
       - name: PROJECT_PATH
         value: "eks-distro-base"
@@ -95,6 +97,8 @@ periodics:
         value: "moby/buildkit:v0.10.5-rootless"
       - name: USE_BUILDX
         value: "true"
+      - name: WEBHOOK_URL
+        value: "https://hooks.slack.com/workflows/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"
     - name: buildkitd
       image: moby/buildkit:v0.10.5-rootless
       command:
